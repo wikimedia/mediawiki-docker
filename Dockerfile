@@ -3,7 +3,7 @@ MAINTAINER Gabriel Wicke <gwicke@wikimedia.org>
 
 # Waiting in antiticipation for built-time arguments
 # https://github.com/docker/docker/issues/14634
-ENV MEDIAWIKI_VERSION wmf/1.27.0-wmf.9
+ENV MEDIAWIKI_VERSION wmf/1.28.0-wmf.15
 
 # XXX: Consider switching to nginx.
 RUN set -x; \
