@@ -111,7 +111,7 @@ EOPHP
 
 cd /var/www/html
 # FIXME: Keep php files out of the doc root.
-ln -s /usr/src/mediawiki/* .
+ln -sf /usr/src/mediawiki/* .
 
 : ${MEDIAWIKI_SHARED:=/data}
 if [ -d "$MEDIAWIKI_SHARED" ]; then
