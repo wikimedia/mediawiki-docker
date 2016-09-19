@@ -111,6 +111,9 @@ EOPHP
 
 cd /var/www/html
 # FIXME: Keep php files out of the doc root.
+
+# Force flag on ln, because this file is run everytime the container is restarted,
+# and if any of the links exists already, ln will return an error, and booting the image fails.
 ln -sf /usr/src/mediawiki/* .
 
 : ${MEDIAWIKI_SHARED:=/data}
@@ -121,33 +124,33 @@ if [ -d "$MEDIAWIKI_SHARED" ]; then
 		ln -sf "$MEDIAWIKI_SHARED/LocalSettings.php" LocalSettings.php
 	fi
 
-	# If the images directory only contains a README, then link it to
+	# If the images directory only contains a README and is a link to /usr/src/mediawiki/images, then link it to
 	# $MEDIAWIKI_SHARED/images, creating the shared directory if necessary
-	if [ "$(ls images)" = "README" -a ! -L images ]; then
+	if [ "$(ls images)" = "README" -a "$(realpath images)" = "/usr/src/mediawiki/images" ]; then
 		rm -fr images
 		mkdir -p "$MEDIAWIKI_SHARED/images"
 		ln -sf "$MEDIAWIKI_SHARED/images" images
 	fi
 
-	# If an extensions folder exists inside the shared directory, as long as
-	# /var/www/html/extensions is not already a symbolic link, then replace it
-	if [ -d "$MEDIAWIKI_SHARED/extensions" -a ! -h /var/www/html/extensions ]; then
+	# If an extensions folder exists inside the shared directory, and
+	# /var/www/html/extensions a symbolic link to /usr/src/mediawiki/extensions, replace it
+	if [ -d "$MEDIAWIKI_SHARED/extensions" -a "$(realpath extensions)" = "/usr/src/mediawiki/extensions" ]; then
 		echo >&2 "Found 'extensions' folder in data volume, creating symbolic link."
 		rm -rf /var/www/html/extensions
 		ln -sf "$MEDIAWIKI_SHARED/extensions" /var/www/html/extensions
 	fi
 
 	# If a skins folder exists inside the shared directory, as long as
-	# /var/www/html/skins is not already a symbolic link, then replace it
-	if [ -d "$MEDIAWIKI_SHARED/skins" -a ! -h /var/www/html/skins ]; then
+	# /var/www/html/skins a symbolic link to /usr/src/mediawiki/skins, replace it
+	if [ -d "$MEDIAWIKI_SHARED/skins" -a "$(realpath skins)" = "/usr/src/mediawiki/skins" ]; then
 		echo >&2 "Found 'skins' folder in data volume, creating symbolic link."
 		rm -rf /var/www/html/skins
 		ln -sf "$MEDIAWIKI_SHARED/skins" /var/www/html/skins
 	fi
 
 	# If a vendor folder exists inside the shared directory, as long as
-	# /var/www/html/vendor is not already a symbolic link, then replace it
-	if [ -d "$MEDIAWIKI_SHARED/vendor" -a ! -h /var/www/html/vendor ]; then
+	# /var/www/html/vendor a symbolic link to /usr/src/mediawiki/vendor, replace it
+	if [ -d "$MEDIAWIKI_SHARED/vendor" -a "$(realpath vendor)" = "/usr/src/mediawiki/vendor" ]; then
 		echo >&2 "Found 'vendor' folder in data volume, creating symbolic link."
 		rm -rf /var/www/html/vendor
 		ln -sf "$MEDIAWIKI_SHARED/vendor" /var/www/html/vendor
