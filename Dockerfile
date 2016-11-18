@@ -50,6 +50,7 @@ RUN set -x; \
 COPY php.ini /usr/local/etc/php/conf.d/mediawiki.ini
 
 COPY apache/mediawiki.conf /etc/apache2/
+COPY apache/restbase.conf /etc/apache2/
 RUN echo "Include /etc/apache2/mediawiki.conf" >> /etc/apache2/apache2.conf
 
 COPY docker-entrypoint.sh /entrypoint.sh

@@ -29,6 +29,14 @@ if [ -z "$MEDIAWIKI_DB_HOST" ]; then
 	fi
 fi
 
+if [ -n "$MEDIAWIKI_RESTBASE_URL" ]; then
+	if ! grep -Fxq "Include /etc/apache2/restbase.conf" /etc/apache2/apache2.conf; then
+		echo "Include /etc/apache2/restbase.conf" >> /etc/apache2/apache2.conf
+	fi
+else
+	sed -i "/\b\(Include \/etc\/apache2\/restbase.conf\)\b/d" /etc/apache2/apache2.conf
+fi
+
 if [ -z "$MEDIAWIKI_DB_USER" ]; then
 	if [ "$MEDIAWIKI_DB_TYPE" = "mysql" ]; then
 		echo >&2 'info: missing MEDIAWIKI_DB_USER environment variable, defaulting to "root"'
