@@ -119,6 +119,8 @@ ln -s /usr/src/mediawiki/* .
 
 : ${MEDIAWIKI_SHARED:=/data}
 if [ -d "$MEDIAWIKI_SHARED" ]; then
+    mkdir -p "$MEDIAWIKI_SHARED/log"
+
 	# If there is no LocalSettings.php but we have one under the shared
 	# directory, symlink it
 	if [ -e "$MEDIAWIKI_SHARED/LocalSettings.php" -a ! -e LocalSettings.php ]; then
@@ -229,7 +231,7 @@ fi
 mkdir -p images
 
 # Fix file ownership and permissions
-chown -R www-data: .
-chmod 755 images
+#chown -R www-data: .
+#chmod 755 images
 
 exec "$@"

@@ -45,7 +45,14 @@ RUN set -x; \
     && git submodule update --init VisualEditor \
     && cd VisualEditor \
     && git checkout $MEDIAWIKI_VERSION \
-    && git submodule update --init
+    && git submodule update --init \
+    && chmod 777 /var/www/html
+
+RUN setcap 'cap_net_bind_service=+ep' /usr/sbin/apache2 \
+    && rm -rf /var/log/apache2 \
+    && ln -s /data/log /var/log/apache2 \
+    && chmod 777 /var/lock/apache2 \
+    && chmod 777 /var/run/apache2
 
 COPY php.ini /usr/local/etc/php/conf.d/mediawiki.ini
 
