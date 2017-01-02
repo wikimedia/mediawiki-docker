@@ -115,14 +115,14 @@ EOPHP
 
 cd /var/www/html
 # FIXME: Keep php files out of the doc root.
-ln -s /usr/src/mediawiki/* .
+ln -sf /usr/src/mediawiki/* .
 
 : ${MEDIAWIKI_SHARED:=/data}
 if [ -d "$MEDIAWIKI_SHARED" ]; then
 	# If there is no LocalSettings.php but we have one under the shared
 	# directory, symlink it
 	if [ -e "$MEDIAWIKI_SHARED/LocalSettings.php" -a ! -e LocalSettings.php ]; then
-		ln -s "$MEDIAWIKI_SHARED/LocalSettings.php" LocalSettings.php
+		ln -sf "$MEDIAWIKI_SHARED/LocalSettings.php" LocalSettings.php
 	fi
 
 	# If the images directory only contains a README, then link it to
@@ -130,7 +130,7 @@ if [ -d "$MEDIAWIKI_SHARED" ]; then
 	if [ "$(ls images)" = "README" -a ! -L images ]; then
 		rm -fr images
 		mkdir -p "$MEDIAWIKI_SHARED/images"
-		ln -s "$MEDIAWIKI_SHARED/images" images
+		ln -sf "$MEDIAWIKI_SHARED/images" images
 	fi
 
 	# If an extensions folder exists inside the shared directory, as long as
@@ -138,7 +138,7 @@ if [ -d "$MEDIAWIKI_SHARED" ]; then
 	if [ -d "$MEDIAWIKI_SHARED/extensions" -a ! -h /var/www/html/extensions ]; then
 		echo >&2 "Found 'extensions' folder in data volume, creating symbolic link."
 		rm -rf /var/www/html/extensions
-		ln -s "$MEDIAWIKI_SHARED/extensions" /var/www/html/extensions
+		ln -sf "$MEDIAWIKI_SHARED/extensions" /var/www/html/extensions
 	fi
 
 	# If a skins folder exists inside the shared directory, as long as
@@ -146,7 +146,7 @@ if [ -d "$MEDIAWIKI_SHARED" ]; then
 	if [ -d "$MEDIAWIKI_SHARED/skins" -a ! -h /var/www/html/skins ]; then
 		echo >&2 "Found 'skins' folder in data volume, creating symbolic link."
 		rm -rf /var/www/html/skins
-		ln -s "$MEDIAWIKI_SHARED/skins" /var/www/html/skins
+		ln -sf "$MEDIAWIKI_SHARED/skins" /var/www/html/skins
 	fi
 
 	# If a vendor folder exists inside the shared directory, as long as
@@ -154,7 +154,7 @@ if [ -d "$MEDIAWIKI_SHARED" ]; then
 	if [ -d "$MEDIAWIKI_SHARED/vendor" -a ! -h /var/www/html/vendor ]; then
 		echo >&2 "Found 'vendor' folder in data volume, creating symbolic link."
 		rm -rf /var/www/html/vendor
-		ln -s "$MEDIAWIKI_SHARED/vendor" /var/www/html/vendor
+		ln -sf "$MEDIAWIKI_SHARED/vendor" /var/www/html/vendor
 	fi
 
 	# Attempt to enable SSL support if explicitly requested
@@ -203,7 +203,7 @@ if [ ! -e "LocalSettings.php" -a ! -z "$MEDIAWIKI_SITE_SERVER" ]; then
 		if [ -d "$MEDIAWIKI_SHARED" ]; then
 			# Move generated LocalSettings.php to share volume
 			mv LocalSettings.php "$MEDIAWIKI_SHARED/LocalSettings.php"
-			ln -s "$MEDIAWIKI_SHARED/LocalSettings.php" LocalSettings.php
+			ln -sf "$MEDIAWIKI_SHARED/LocalSettings.php" LocalSettings.php
 		fi
 fi
 
