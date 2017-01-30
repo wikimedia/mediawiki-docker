@@ -1,4 +1,4 @@
-FROM debian:sid
+FROM debian:jessie
 MAINTAINER Gabriel Wicke <gwicke@wikimedia.org>
 
 # Waiting in antiticipation for built-time arguments
