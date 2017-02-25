@@ -196,7 +196,7 @@ if [ ! -e "LocalSettings.php" -a ! -z "$MEDIAWIKI_SITE_SERVER" ]; then
 		"$MEDIAWIKI_ADMIN_USER"
 
         # Append inclusion of /compose_conf/CustomSettings.php
-        echo "@include('/conf/CustomSettings.php');" >> LocalSettings.php
+        echo "@include('/data/CustomSettings.php');" >> LocalSettings.php
 
 		# If we have a mounted share volume, move the LocalSettings.php to it
 		# so it can be restored if this container needs to be reinitiated
