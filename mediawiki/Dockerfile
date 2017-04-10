@@ -1,4 +1,4 @@
-FROM debian:sid
+FROM debian:jessie
 
 ENV MEDIAWIKI_VERSION wmf/1.29.0-wmf.18
 
@@ -7,13 +7,11 @@ RUN set -ex \
     && mediawikiDeps=' \
         ca-certificates \
         apache2 \
-        libapache2-mod-php \
-        php-mysql \
-        php-cli \
-        php-gd \
-        php-curl \
-        php7.0-mbstring \
-        php7.0-xml \
+        libapache2-mod-php5 \
+        php5-mysql \
+        php5-cli \
+        php5-gd \
+        php5-curl \
         imagemagick \
         netcat \
         git \
