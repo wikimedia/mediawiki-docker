@@ -58,6 +58,9 @@ php /var/www/html/maintenance/install.php \
 	"$MEDIAWIKI_SITE_NAME" \
 	"$MEDIAWIKI_ADMIN_USER"
 
+# Regenerate ca-certs
+update-ca-certificates -f &>/dev/null
+
 # Dirty but... good enough :D
 sed '/?>/d' /var/www/html/LocalSettings.php && { cat /data/custom_settings.php; echo; echo "?>"; } >> /var/www/html/LocalSettings.php
 
