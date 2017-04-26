@@ -13,7 +13,7 @@ RUN set -ex \
         php5-gd \
         php5-curl \
         php-net-smtp \
-        php-net-mail \
+        php-auth-sasl \
         php-mail \
         php-net-socket \
         imagemagick \
