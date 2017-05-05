@@ -12,6 +12,10 @@ RUN set -ex \
         php5-cli \
         php5-gd \
         php5-curl \
+        php-net-smtp \
+        php-auth-sasl \
+        php-mail \
+        php-net-socket \
         imagemagick \
         netcat \
         git \
