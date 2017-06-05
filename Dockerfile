@@ -3,7 +3,7 @@ MAINTAINER Gabriel Wicke <gwicke@wikimedia.org>
 
 # Waiting in antiticipation for built-time arguments
 # https://github.com/docker/docker/issues/14634
-ENV MEDIAWIKI_VERSION wmf/1.27.0-wmf.9
+ENV MEDIAWIKI_VERSION wmf/1.30.0-wmf.2
 
 # XXX: Consider switching to nginx.
 RUN set -x; \
@@ -44,6 +44,11 @@ RUN set -x; \
     # TODO: make submodules shallow clones?
     && git submodule update --init VisualEditor \
     && cd VisualEditor \
+    && git checkout $MEDIAWIKI_VERSION \
+    && git submodule update --init
+    # Math
+    && cd .. && git submodule update --init Math \
+    && cd Math \
     && git checkout $MEDIAWIKI_VERSION \
     && git submodule update --init
 
