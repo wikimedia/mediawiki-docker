@@ -8,7 +8,7 @@ others.
 
 # How to use this image
 
-    docker run --name some-mediawiki --link some-mysql:mysql -v /local/data/path:/data:rw -d benhutchins/mediawiki
+    docker run --name some-mediawiki --link some-mysql:mysql -v /local/data/path:/data:rw -d wikimedia/mediawiki
 
 Partial explanation of arguments:
 
@@ -33,26 +33,19 @@ As mentioned, this will generate the `LocalSettings.php` file that is required b
 
 ## Choosing MediaWiki version
 
-You can use one of the built containers using that version:
+We currently track latest MediaWiki production branches, as run on
+wikipedia.org.
 
- - `benhutchins/mediawiki:1.23` (uses `1.23.10`, official Long Term Support by [MediaWiki](https://www.mediawiki.org/wiki/MediaWiki))
- - `benhutchins/mediawiki:1.23-postgres` (currently uses `1.23.10`, and installs the `postgres` php module)
- - `benhutchins/mediawiki:1.24` (uses `1.24.3`)
- - `benhutchins/mediawiki:1.25` (uses `1.25.2`)
- - `benhutchins/mediawiki:latest` (currently uses `1.25.2`)
- - `benhutchins/mediawiki:postgres` (currently uses `1.25.2`, and installs the `postgres` php module)
+ - `wikimedia/mediawiki:latest` (currently uses `1.27-wmf9`)
 
 To use one of these pre-built containers, simply specify the tag as part of the `docker run` command:
 
-    docker run --name some-mediawiki --link some-postgres:postgres -v /local/data/path:/data:rw -d benhutchins/mediawiki:postgres
+    docker run --name some-mediawiki --link mysql -v /local/data/path:/data:rw -d wikimedia/mediawiki
 
 ## Docker Compose
 
-To run with [Docker Compose](https://docs.docker.com/compose/install/), you'll need to clone this repository and run:
-
-    docker-compose up
-
-**Note** You'll likely want to uncomment the `docker-compose.yml` file's `volume` lines.
+See https://github.com/gwicke/mediawiki-containers for a fully-featured docker
+compose setup with VisualEditor & other services.
 
 ## Configure Database
 
@@ -62,7 +55,7 @@ The example above uses `--link` to connect the MediaWiki container with a runnin
 
 You can use Postgres instead of MySQL as your database server using the `:postgres` tag:
 
-    docker run --name some-mediawiki --link some-postgres:postgres -v /local/data/path:/data:rw -d benhutchins/mediawiki:postgres
+    docker run --name some-mediawiki --link some-postgres:postgres -v /local/data/path:/data:rw -d wikimedia/mediawiki:postgres
 
 ### Using Database Server
 
@@ -89,7 +82,7 @@ To use with an external database server, use `MEDIAWIKI_DB_HOST` (along with
         -e MEDIAWIKI_DB_PORT=3306 \
         -e MEDIAWIKI_DB_USER=app \
         -e MEDIAWIKI_DB_PASSWORD=secure \
-        benhutchins/mediawiki
+        wikimedia/mediawiki
 
 ## Shared Volume
 
@@ -105,7 +98,7 @@ Additionally if a `composer.lock` **and** a `composer.json` are detected, the co
 
 If you'd like to be able to access the instance from the host without the container's IP, standard port mappings can be used using the `-p` or `-P` argument when running `docker run`. See [docs.docker.com](https://docs.docker.com/reference/run/#expose-incoming-ports) for more help.
 
-    docker run --name some-mediawiki --link some-mysql:mysql -p 8080:80 -v /local/data/dir:data:rw -d benhutchins/mediawiki
+    docker run --name some-mediawiki --link some-mysql:mysql -p 8080:80 -v /local/data/dir:data:rw -d wikimedia/mediawiki
 
 Then, access it via `http://localhost:8080` or `http://host-ip:8080` in a browser.
 
