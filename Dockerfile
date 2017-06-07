@@ -40,14 +40,18 @@ RUN set -x; \
     && git submodule update --init skins \
     && git submodule update --init vendor \
     && cd extensions \
-    # VisualEditor
+    # Extensions
     # TODO: make submodules shallow clones?
-    && git submodule update --init VisualEditor \
-    && cd VisualEditor \
-    && git checkout $MEDIAWIKI_VERSION \
-    && git submodule update --init \
-    && cd .. \
-    && git submodule update --init Math
+    && git submodule update --init --recursive VisualEditor \
+    && git submodule update --init --recursive Math \
+    && git submodule update --init --recursive EventBus \
+    && git submodule update --init --recursive Scribunto \
+    && git submodule update --init --recursive ParserFunctions \
+    && git submodule update --init --recursive SyntaxHighlight_GeSHi \
+    && git submodule update --init --recursive Cite \
+    && git submodule update --init --recursive Echo \
+    && git submodule update --init --recursive Flow
+
 
 COPY php.ini /usr/local/etc/php/conf.d/mediawiki.ini
 
