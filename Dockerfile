@@ -52,7 +52,9 @@ RUN set -x; \
     && git submodule update --init --recursive Echo \
     && git submodule update --init --recursive Flow \
     && git submodule update --init --recursive PageImages \
-    && git submodule update --init --recursive TextExtracts
+    && git submodule update --init --recursive TextExtracts \
+    && git submodule update --init --recursive MobileFrontend \
+    && git submodule update --init --recursive Citoid
 
 
 COPY php.ini /usr/local/etc/php/conf.d/mediawiki.ini
