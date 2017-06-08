@@ -50,7 +50,9 @@ RUN set -x; \
     && git submodule update --init --recursive SyntaxHighlight_GeSHi \
     && git submodule update --init --recursive Cite \
     && git submodule update --init --recursive Echo \
-    && git submodule update --init --recursive Flow
+    && git submodule update --init --recursive Flow \
+    && git submodule update --init --recursive PageImages \
+    && git submodule update --init --recursive TextExtracts
 
 
 COPY php.ini /usr/local/etc/php/conf.d/mediawiki.ini
