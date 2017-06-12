@@ -1,7 +1,7 @@
 FROM debian:sid
 MAINTAINER Gabriel Wicke <gwicke@wikimedia.org>
 
-ENV MEDIAWIKI_VERSION wmf/1.30.0-wmf.2
+ENV MEDIAWIKI_VERSION wmf/1.30.0-wmf.4
 
 # XXX: Consider switching to nginx.
 RUN set -x; \
