@@ -54,6 +54,8 @@ RUN set -x; \
     && git submodule update --init --recursive PageImages \
     && git submodule update --init --recursive TextExtracts \
     && git submodule update --init --recursive MobileFrontend \
+    && git submodule update --init --recursive TemplateData \
+    && git submodule update --init --recursive ParserFunctions \
     && git submodule update --init --recursive Citoid
 
 
