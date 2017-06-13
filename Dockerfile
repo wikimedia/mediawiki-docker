@@ -19,6 +19,9 @@ RUN set -x; \
         imagemagick \
         netcat \
         git \
+        php-pear \
+    && pear install mail \
+    && pear install net_smtp \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/apt/archives/* \
     && a2enmod rewrite \
