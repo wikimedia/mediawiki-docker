@@ -1,4 +1,4 @@
-FROM debian:sid
+FROM debian:jessie
 MAINTAINER Gabriel Wicke <gwicke@wikimedia.org>
 
 ENV MEDIAWIKI_VERSION wmf/1.30.0-wmf.4
