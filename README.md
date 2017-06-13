@@ -47,6 +47,16 @@ To use one of these pre-built containers, simply specify the tag as part of the 
 See https://github.com/gwicke/mediawiki-containers for a fully-featured docker
 compose setup with VisualEditor & other services.
 
+## Configure RESTBase API
+
+You can specify the `MEDIAWIKI_RESTBASE_URL` to use MediaWiki with [RESTBase API](https://www.mediawiki.org/wiki/RESTBase) service. It is recommended if you want to install some extensions like VisualEditor.
+
+- `-e MEDIAWIKI_RESTBASE_URL=...` (the url of RESTBase API)
+
+To run the RESTBase API server, you can use [mediawiki-node-js](https://github.com/wikimedia/mediawiki-node-services) that runs several mediawiki nodejs services (RESTBase, Parsoid) in a single docker container.
+
+Or if you wanted a "ready" MediaWiki install with RESTBase included, you can directly use [mediawiki-containers](https://github.com/wikimedia/mediawiki-containers) that runs MediaWiki including RESTBase and other services in a single docker container.
+
 ## Configure Database
 
 The example above uses `--link` to connect the MediaWiki container with a running [mysql](https://hub.docker.com/_/mysql/) container. This is probably not the best idea for use in production, keeping data in docker containers can be dangerous.
