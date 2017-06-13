@@ -94,16 +94,16 @@ TERM=dumb php -- <<'EOPHP'
 <?php
 // database might not exist, so let's try creating it (just to be safe)
 
-if ($_ENV['MEDIAWIKI_DB_TYPE'] == 'mysql') {
+if (getenv('MEDIAWIKI_DB_TYPE') == 'mysql') {
 
-	$mysql = new mysqli($_ENV['MEDIAWIKI_DB_HOST'], $_ENV['MEDIAWIKI_DB_USER'], $_ENV['MEDIAWIKI_DB_PASSWORD'], '', (int) $_ENV['MEDIAWIKI_DB_PORT']);
+	$mysql = new mysqli(getenv('MEDIAWIKI_DB_HOST'), getenv('MEDIAWIKI_DB_USER'), getenv('MEDIAWIKI_DB_PASSWORD'), '', (int) getenv('MEDIAWIKI_DB_PORT'));
 
 	if ($mysql->connect_error) {
 		file_put_contents('php://stderr', 'MySQL Connection Error: (' . $mysql->connect_errno . ') ' . $mysql->connect_error . "\n");
 		exit(1);
 	}
 
-	if (!$mysql->query('CREATE DATABASE IF NOT EXISTS `' . $mysql->real_escape_string($_ENV['MEDIAWIKI_DB_NAME']) . '`')) {
+	if (!$mysql->query('CREATE DATABASE IF NOT EXISTS `' . $mysql->real_escape_string(getenv('MEDIAWIKI_DB_NAME')) . '`')) {
 		file_put_contents('php://stderr', 'MySQL "CREATE DATABASE" Error: ' . $mysql->error . "\n");
 		$mysql->close();
 		exit(1);
