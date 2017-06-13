@@ -98,7 +98,7 @@ Additionally if a `composer.lock` **and** a `composer.json` are detected, the co
 
 If you'd like to be able to access the instance from the host without the container's IP, standard port mappings can be used using the `-p` or `-P` argument when running `docker run`. See [docs.docker.com](https://docs.docker.com/reference/run/#expose-incoming-ports) for more help.
 
-    docker run --name some-mediawiki --link some-mysql:mysql -p 8080:80 -v /local/data/dir:data:rw -d wikimedia/mediawiki
+    docker run --name some-mediawiki --link some-mysql:mysql -p 8080:80 -v /local/data/dir:/data:rw -d wikimedia/mediawiki
 
 Then, access it via `http://localhost:8080` or `http://host-ip:8080` in a browser.
 
