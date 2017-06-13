@@ -135,7 +135,7 @@ if [ -d "$MEDIAWIKI_SHARED" ]; then
 
 	# If an extensions folder exists inside the shared directory, as long as
 	# /var/www/html/extensions is not already a symbolic link, then replace it
-	if [ -d "$MEDIAWIKI_SHARED/extensions" -a ! -h /var/www/html/extensions ]; then
+	if [ -d "$MEDIAWIKI_SHARED/extensions" ]; then
 		echo >&2 "Found 'extensions' folder in data volume, creating symbolic link."
 		rm -rf /var/www/html/extensions
 		ln -s "$MEDIAWIKI_SHARED/extensions" /var/www/html/extensions
