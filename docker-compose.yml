@@ -1,0 +1,25 @@
+db:
+  image: mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=password
+web:
+  build: .
+  ports:
+    - 80:80
+    - 443:443
+  # use the links section if you want to use a container for a database.
+  # if not, and you want to use an external database server, configure
+  # if with the environment variables in the 'environment' section.
+  # see README.md for more details.
+  links:
+    - db
+  # uncomment the 'volumes' section to enable a shared volume with docker-compose
+  # volumes:
+  #   - /local/data/dir:/data:rw
+  environment:
+    - MEDIAWIKI_SITE_SERVER=//my-wiki
+    - MEDIAWIKI_SITE_NAME=My Awesome Wiki
+    - MEDIAWIKI_DB_PASSWORD=password
+
+    # uncomment 'MEDIAWIKI_ENABLE_SSL' to enable SSL support
+    # - MEDIAWIKI_ENABLE_SSL=true
