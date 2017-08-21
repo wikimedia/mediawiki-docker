@@ -32,12 +32,14 @@ RUN mkdir -p /var/www/data \
 	&& chown -R www-data:www-data /var/www/data
 
 # Version
+ENV MEDIAWIKI_MAJOR_VERSION 1.28
+ENV MEDIAWIKI_BRANCH REL1_28
 ENV MEDIAWIKI_VERSION 1.28.2
-ENV MEDIAWIKIL_MD5 d10212ced22d09f9eb2f92e28e70c601
+ENV MEDIAWIKI_MD5 d10212ced22d09f9eb2f92e28e70c601
 
 # MediaWiki setup
-RUN curl -fSL "https://releases.wikimedia.org/mediawiki/1.28/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz \
-	&& echo "${MEDIAWIKIL_MD5} *mediawiki.tar.gz" | md5sum -c - \
+RUN curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz \
+	&& echo "${MEDIAWIKI_MD5} *mediawiki.tar.gz" | md5sum -c - \
 	&& tar -xz --strip-components=1 -f mediawiki.tar.gz \
 	&& rm mediawiki.tar.gz \
 	&& chown -R www-data:www-data extensions skins cache images
