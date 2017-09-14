@@ -2,13 +2,13 @@ FROM php:7.1-apache
 
 # System Dependencies.
 RUN apt-get update && apt-get install -y \
-		git \
+		git libpg-dev \
 		imagemagick \
 		libicu-dev \
 	--no-install-recommends && rm -r /var/lib/apt/lists/*
 
 # Install the PHP extensions we need
-RUN docker-php-ext-install mbstring mysqli opcache intl
+RUN docker-php-ext-install mbstring mysqli opcache intl pgsql
 
 # Install the default object cache.
 RUN pecl channel-update pecl.php.net \
