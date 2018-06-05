@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.1-apache-jessie
 
 # System Dependencies.
 RUN apt-get update && apt-get install -y \
