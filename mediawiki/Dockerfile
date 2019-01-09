@@ -1,6 +1,8 @@
 FROM debian:jessie
 
-ENV MEDIAWIKI_VERSION wmf/1.29.0-wmf.18
+ENV MEDIAWIKI_VERSION 1.29.0
+ENV MEDIAWIKI_SHA512 3b77d04f13488b2a602d9030a4833c881188c93e2708ea7941d9e82f7a7215f3028695f396914da09ae1288cb9e980cc04f78559edaff6559e3d50b0c47afeb3
+ENV MEDIAWIKI_MAJOR_VERSION 1.29
 
 RUN set -ex \
     && apt-get update \
@@ -37,13 +39,12 @@ VOLUME /data
 
 # MediaWiki setup
 RUN set -x; \
-    rm -rf /var/www/html || true \
-    && git clone \
-        --depth 1 \
-        -b $MEDIAWIKI_VERSION \
-        https://github.com/wikimedia/mediawiki.git \
-        /var/www/html \
+    rm -rf /var/www/html/* || true \
     && cd /var/www/html \
+    && curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz \
+    && echo "${MEDIAWIKI_SHA512} *mediawiki.tar.gz" | sha512sum -c - \
+    && tar -xz --strip-components=1 -f mediawiki.tar.gz \
+    && rm -f mediawiki.tar.gz \
     && for d in images extensions skins vendor; do rm -rf $d && ln -s /data/$d; done \
     && curl -sS https://getcomposer.org/installer | php
 
