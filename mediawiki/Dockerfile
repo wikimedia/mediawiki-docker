@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM php:7.2-apache
 
 ENV MEDIAWIKI_VERSION 1.32.1
 ENV MEDIAWIKI_SHA512 597af44ba140a50b4dfec9dd1a81db1c96e6672f33870ad15d9be875c4a7109eff57034e10762c45c47bad4afdfe27b96949dd6dd4bea24db6ea54bafd80c376
@@ -6,22 +6,14 @@ ENV MEDIAWIKI_MAJOR_VERSION 1.32
 
 RUN set -ex \
     && apt-get update \
+    && apt-get -y install libicu-dev apt-transport-https ca-certificates wget libpng-dev \ 
     && mediawikiDeps=' \
         ca-certificates \
-        apache2 \
-        libapache2-mod-php5 \
-        php5-mysql \
-        php5-cli \
-        php5-gd \
-        php5-curl \
-        php-net-smtp \
-        php-auth-sasl \
-        php-mail \
-        php-net-socket \
         imagemagick \
         netcat \
         git \
         curl \
+        unzip \
 	  '  \
     && apt-get install -y $mediawikiDeps --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
@@ -33,6 +25,10 @@ RUN set -ex \
     && a2disconf other-vhosts-access-log \
     # Remove the default Debian index page.
     && rm -rf /var/www/html/*
+
+RUN docker-php-ext-install gd intl mysqli mbstring opcache \
+    && pecl install apcu-5.1.16 \
+    && docker-php-ext-enable apcu
 
 RUN mkdir -p /data && chown www-data:www-data /data
 VOLUME /data
