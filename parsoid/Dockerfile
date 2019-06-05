@@ -3,14 +3,15 @@ FROM debian:jessie
 RUN set -x; \
     apt-get update -qq \
     && apt-get install -y apt-transport-https curl \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -sL https://deb.nodesource.com/setup_12.x | bash -
 
 RUN apt-key advanced --keyserver keys.gnupg.net --recv-keys 90E9F83F22250DD7 \
     && echo "deb https://releases.wikimedia.org/debian jessie-mediawiki main" > /etc/apt/sources.list.d/parsoid.list
 
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends parsoid \
+    && apt-get install -y --no-install-recommends nodejs parsoid \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /etc/mediawiki/parsoid
