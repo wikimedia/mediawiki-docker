@@ -1,24 +1,24 @@
-FROM debian:jessie
+FROM alpine:latest
 
-RUN set -x; \
-    apt-get update -qq \
-    && apt-get install -y apt-transport-https curl \
-    && rm -rf /var/lib/apt/lists/* \
-    && curl -sL https://deb.nodesource.com/setup_12.x | bash -
+# Versions from https://github.com/wikimedia/parsoid/releases
+ENV PARSOID_VERSION=v0.10.0
+ENV PARSOID_PATH=/usr/src/app/
 
-RUN apt-key advanced --keyserver keys.gnupg.net --recv-keys 90E9F83F22250DD7 \
-    && echo "deb https://releases.wikimedia.org/debian jessie-mediawiki main" > /etc/apt/sources.list.d/parsoid.list
-
-
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends nodejs parsoid \
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /etc/mediawiki/parsoid
+RUN apk add --no-cache nodejs nodejs-npm python git make \
+    && mkdir -p ${PARSOID_PATH} \
+    && git clone \
+        --branch ${PARSOID_VERSION} \
+        --single-branch \
+        --depth 1 \
+        --quiet \
+        https://github.com/wikimedia/parsoid \
+        $PARSOID_PATH \
+    && cd $PARSOID_PATH \
+    && npm install
 
 EXPOSE 8000
 
 COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/usr/bin/nodejs", "/usr/lib/parsoid/src/bin/server.js", "-c", "/etc/mediawiki/parsoid/config.yaml", "-n", "0"]
+CMD ["/usr/bin/node", "/usr/src/app/bin/server.js", "-c", "/usr/src/app/config.yaml", "-n", "0"]
