@@ -21,4 +21,3 @@ EXPOSE 8000
 COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/usr/bin/node", "/usr/src/app/bin/server.js", "-c", "/usr/src/app/config.yaml", "-n", "0"]
