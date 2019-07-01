@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 # Versions from https://github.com/wikimedia/parsoid/releases
-ENV PARSOID_VERSION=v0.10.0
+ENV PARSOID_VERSION=v0.9.0
 ENV PARSOID_PATH=/usr/src/app/
 
 RUN apk add --no-cache nodejs nodejs-npm python git make \
