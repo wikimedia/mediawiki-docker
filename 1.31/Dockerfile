@@ -30,7 +30,7 @@ RUN set -eux; \
 		opcache \
 	; \
 	\
-	pecl install apcu-5.1.17; \
+	pecl install APCu-5.1.18; \
 	docker-php-ext-enable \
 		apcu \
 	; \
@@ -49,6 +49,7 @@ RUN set -eux; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*
 
+
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
 RUN { \
@@ -66,14 +67,34 @@ RUN set -eux; \
 
 # Version
 ENV MEDIAWIKI_MAJOR_VERSION 1.31
-ENV MEDIAWIKI_BRANCH REL1_31
 ENV MEDIAWIKI_VERSION 1.31.8
-ENV MEDIAWIKI_SHA512 f5de72a060177bf444dd27e148c8b94224e5aeee9497169ca57a692ce9e8fb89dd7c2f503e2f6e4d035128b6e62a414a654edc467c5e7e3a347eb805d9ab9e93
 
 # MediaWiki setup
 RUN set -eux; \
+	fetchDeps=" \
+		gnupg \
+		dirmngr \
+	"; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends $fetchDeps; \
+	\
 	curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz; \
-	echo "${MEDIAWIKI_SHA512} *mediawiki.tar.gz" | sha512sum -c -; \
+	curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz.sig" -o mediawiki.tar.gz.sig; \
+	export GNUPGHOME="$(mktemp -d)"; \
+# gpg key from https://www.mediawiki.org/keys/keys.txt
+	gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys \
+		D7D6767D135A514BEB86E9BA75682B08E8A3FEC4 \
+		441276E9CCD15F44F6D97D18C119E1A64D70938E \
+		F7F780D82EBFB8A56556E7EE82403E59F9F8CD79 \
+		1D98867E82982C8FE0ABC25F9B69B3109D3BB7B0 \
+	; \
+	gpg --batch --verify mediawiki.tar.gz.sig mediawiki.tar.gz; \
 	tar -x --strip-components=1 -f mediawiki.tar.gz; \
-	rm mediawiki.tar.gz; \
-	chown -R www-data:www-data extensions skins cache images
+	gpgconf --kill all; \
+	rm -r "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz; \
+	chown -R www-data:www-data extensions skins cache images; \
+	\
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $fetchDeps; \
+	rm -rf /var/lib/apt/lists/*
+
+CMD ["apache2-foreground"]
