@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: v1.31
       run: docker build ./1.31
-    - name: v1.32
-      run: docker build ./1.32
     - name: v1.33
       run: docker build ./1.33
+    - name: v1.34
+      run: docker build ./1.34
