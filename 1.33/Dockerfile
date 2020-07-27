@@ -30,7 +30,7 @@ RUN set -eux; \
 		opcache \
 	; \
 	\
-	pecl install apcu-5.1.17; \
+	pecl install APCu-5.1.18; \
 	docker-php-ext-enable \
 		apcu \
 	; \
@@ -53,12 +53,12 @@ RUN set -eux; \
 RUN set -eux; \
 	a2enmod rewrite; \
 	{ \
-		echo '<Directory /var/www/html>'; \
-		echo '  RewriteEngine On'; \
-		echo '  RewriteCond %{REQUEST_FILENAME} !-f'; \
-		echo '  RewriteCond %{REQUEST_FILENAME} !-d'; \
-		echo '  RewriteRule ^ %{DOCUMENT_ROOT}/index.php [L]'; \
-		echo '</Directory>'; \
+		echo "<Directory /var/www/html>"; \
+		echo "  RewriteEngine On"; \
+		echo "  RewriteCond %{REQUEST_FILENAME} !-f"; \
+		echo "  RewriteCond %{REQUEST_FILENAME} !-d"; \
+		echo "  RewriteRule ^ %{DOCUMENT_ROOT}/index.php [L]"; \
+		echo "</Directory>"; \
 	} > "$APACHE_CONFDIR/conf-available/short-url.conf"; \
 	a2enconf short-url
 
@@ -79,14 +79,34 @@ RUN set -eux; \
 
 # Version
 ENV MEDIAWIKI_MAJOR_VERSION 1.33
-ENV MEDIAWIKI_BRANCH REL1_33
 ENV MEDIAWIKI_VERSION 1.33.4
-ENV MEDIAWIKI_SHA512 e37280b4c14bfdae3480b8f99672da5c93761f4f80019104d5df24affe0c8447881c6ff85f32d16381ee74a3ce7a083f4dda2e0a24bd6687fbf0b41f11f0564f
 
 # MediaWiki setup
 RUN set -eux; \
+	fetchDeps=" \
+		gnupg \
+		dirmngr \
+	"; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends $fetchDeps; \
+	\
 	curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz; \
-	echo "${MEDIAWIKI_SHA512} *mediawiki.tar.gz" | sha512sum -c -; \
+	curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz.sig" -o mediawiki.tar.gz.sig; \
+	export GNUPGHOME="$(mktemp -d)"; \
+# gpg key from https://www.mediawiki.org/keys/keys.txt
+	gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys \
+		D7D6767D135A514BEB86E9BA75682B08E8A3FEC4 \
+		441276E9CCD15F44F6D97D18C119E1A64D70938E \
+		F7F780D82EBFB8A56556E7EE82403E59F9F8CD79 \
+		1D98867E82982C8FE0ABC25F9B69B3109D3BB7B0 \
+	; \
+	gpg --batch --verify mediawiki.tar.gz.sig mediawiki.tar.gz; \
 	tar -x --strip-components=1 -f mediawiki.tar.gz; \
-	rm mediawiki.tar.gz; \
-	chown -R www-data:www-data extensions skins cache images
+	gpgconf --kill all; \
+	rm -r "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz; \
+	chown -R www-data:www-data extensions skins cache images; \
+	\
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $fetchDeps; \
+	rm -rf /var/lib/apt/lists/*
+
+CMD ["apache2-foreground"]
