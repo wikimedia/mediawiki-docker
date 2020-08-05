@@ -22,7 +22,6 @@ declare -A peclVersions=(
 function mediawiki_version() {
 	git ls-remote --tags https://github.com/wikimedia/mediawiki.git \
 		| cut -d/ -f3 \
-		| grep -viE '[a-z]' \
 		| tr -d '^{}' \
 		| sort -V \
 		| grep -E "^$1" \
