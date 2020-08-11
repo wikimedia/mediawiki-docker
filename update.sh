@@ -49,11 +49,9 @@ for mediawikiRelease in "${mediawikiReleases[@]}"; do
 	mediawikiVersion="$(mediawiki_version $mediawikiRelease)"
 	phpVersion=${phpVersion[$mediawikiRelease]-${phpVersion[default]}}
 
-	#for variant in apache fpm fpm-alpine; do
-	for variant in apache; do
-		#dir="$mediawikiReleaseDir/$variant"
-		#mkdir -p "$dir"
-		dir="${mediawikiRelease}"
+	for variant in apache fpm fpm-alpine; do
+		dir="$mediawikiReleaseDir/$variant"
+		mkdir -p "$dir"
 
 		extras="${variantExtras[$variant]}"
 		cmd="${variantCmds[$variant]}"
