@@ -69,7 +69,6 @@ RUN { \
 		echo 'opcache.interned_strings_buffer=8'; \
 		echo 'opcache.max_accelerated_files=4000'; \
 		echo 'opcache.revalidate_freq=60'; \
-		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 # SQLite Directory Setup
@@ -79,7 +78,7 @@ RUN set -eux; \
 
 # Version
 ENV MEDIAWIKI_MAJOR_VERSION 1.34
-ENV MEDIAWIKI_VERSION 1.34.2
+ENV MEDIAWIKI_VERSION 1.34.4
 
 # MediaWiki setup
 RUN set -eux; \
