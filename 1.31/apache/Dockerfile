@@ -30,10 +30,11 @@ RUN set -eux; \
 		opcache \
 	; \
 	\
-	pecl install APCu-5.1.19; \
+	pecl install APCu-5.1.20; \
 	docker-php-ext-enable \
 		apcu \
 	; \
+	rm -r /tmp/pear; \
 	\
 	# reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
 	apt-mark auto '.*' > /dev/null; \
