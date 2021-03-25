@@ -35,6 +35,7 @@ RUN set -eux; \
 	docker-php-ext-enable \
 		apcu \
 	; \
+	rm -r /tmp/pear; \
 	\
 	# reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
 	apt-mark auto '.*' > /dev/null; \
