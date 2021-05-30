@@ -16,6 +16,7 @@ RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 		$PHPIZE_DEPS \
 		icu-dev \
+		oniguruma-dev \
 	; \
 	\
 	docker-php-ext-install -j "$(nproc)" \

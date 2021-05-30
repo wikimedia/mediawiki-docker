@@ -21,6 +21,7 @@ RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 		libicu-dev \
+		libonig-dev \
 	; \
 	\
 	docker-php-ext-install -j "$(nproc)" \

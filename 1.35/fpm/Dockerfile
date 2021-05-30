@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.4-fpm
 
 # System dependencies
 RUN set -eux; \
@@ -21,6 +21,7 @@ RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 		libicu-dev \
+		libonig-dev \
 	; \
 	\
 	docker-php-ext-install -j "$(nproc)" \
