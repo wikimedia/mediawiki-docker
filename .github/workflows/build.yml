@@ -14,13 +14,10 @@ jobs:
 
     strategy:
       matrix:
+        type: [apache, fpm, fpm-alpine]
         version: ['1.31', '1.35', '1.36']
 
     steps:
     - uses: actions/checkout@v1
-    - name: v${{ matrix.version }}-apache
-      run: docker build ./${{ matrix.version }}/apache
-    - name: v${{ matrix.version }}-fpm
-      run: docker build ./${{ matrix.version }}/fpm
-    - name: v${{ matrix.version }}-fpm-alpine
-      run: docker build ./${{ matrix.version }}/fpm-alpine
+    - name: v${{ matrix.version }}-${{ matrix.type }}
+      run: docker build ./${{ matrix.version }}/${{ matrix.type }}
