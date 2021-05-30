@@ -19,5 +19,4 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: v${{ matrix.version }}-${{ matrix.type }}
-      run: docker build ./${{ matrix.version }}/${{ matrix.type }}
+    - run: docker build ./${{ matrix.version }}/${{ matrix.type }}
