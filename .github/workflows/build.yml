@@ -12,23 +12,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    matrix:
+      version: ['1.31', '1.35', '1.36']
+
     steps:
     - uses: actions/checkout@v1
-    - name: v1.31-apache
-      run: docker build ./1.31/apache
-    - name: v1.31-fpm
-      run: docker build ./1.31/fpm
-    - name: v1.31-fpm-alpine
-      run: docker build ./1.31/fpm-alpine
-    - name: v1.34-apache
-      run: docker build ./1.34/apache
-    - name: v1.34-fpm
-      run: docker build ./1.34/fpm
-    - name: v1.34-fpm-alpine
-      run: docker build ./1.34/fpm-alpine
-    - name: v1.35-apache
-      run: docker build ./1.35/apache
-    - name: v1.35-fpm
-      run: docker build ./1.35/fpm
-    - name: v1.35-fpm-alpine
-      run: docker build ./1.35/fpm-alpine
+    - name: v${{ matrix.version }}-apache
+      run: docker build ./${{ matrix.version }}/apache
+    - name: v${{ matrix.version }}-fpm
+      run: docker build ./${{ matrix.version }}/fpm
+    - name: v${{ matrix.version }}-fpm-alpine
+      run: docker build ./${{ matrix.version }}/fpm-alpine
