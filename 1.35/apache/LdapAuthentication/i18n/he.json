@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"YaronSh"
+		]
+	},
+	"ldapauthentication-desc": "תוסף אימות LDAP עם תמיכה במספר שיטות LDAP לאימות"
+}

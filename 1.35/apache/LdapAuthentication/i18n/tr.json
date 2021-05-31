@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Vito Genovese"
+		]
+	},
+	"ldapauthentication-desc": "Birden çok LDAP kimlik doğrulama yöntemini destekleyen LDAP kimlik doğrulama eklentisi"
+}

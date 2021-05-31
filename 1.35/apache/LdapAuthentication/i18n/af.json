@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Naudefj"
+		]
+	},
+	"ldapauthentication-desc": "Uitbreiding vir LDAP-outentisiteit wat die meeste LDAP-outentisiteitsmetodes ondersteun"
+}

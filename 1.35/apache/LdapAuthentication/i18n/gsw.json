@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Als-Holder"
+		]
+	},
+	"ldapauthentication-desc": "LDAP-Authentifizierigs-Plugin mit Unterstitzig fir multipli LDAP-Authentifizierigs-Merthode"
+}

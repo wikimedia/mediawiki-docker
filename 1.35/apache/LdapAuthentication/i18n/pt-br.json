@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Giro720"
+		]
+	},
+	"ldapauthentication-desc": "''Plugin'' de autenticação LDAP, com suporte para vários métodos de autenticação"
+}

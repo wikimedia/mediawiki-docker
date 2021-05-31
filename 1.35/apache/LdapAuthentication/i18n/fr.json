@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"IAlex",
+			"Urhixidur"
+		]
+	},
+	"ldapauthentication-desc": "Extension d’authentification LDAP prenant en charge de multiples méthodes d’authentification LDAP"
+}

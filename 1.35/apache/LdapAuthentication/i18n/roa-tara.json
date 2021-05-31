@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Joetaras"
+		]
+	},
+	"ldapauthentication-desc": "plugin de autendicazione LDAP cu 'u supporte pe autendicaziune multeple de metode LDAP"
+}

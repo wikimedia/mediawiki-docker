@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Hamilton Abreu"
+		]
+	},
+	"ldapauthentication-desc": "''Plugin'' de autenticação LDAP, com suporte para vários métodos de autenticação"
+}

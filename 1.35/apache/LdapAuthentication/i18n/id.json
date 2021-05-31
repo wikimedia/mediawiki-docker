@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"IvanLanin"
+		]
+	},
+	"ldapauthentication-desc": "Pengaya otentikasi LDAP dengan dukungan untuk berbagai metode otentikasi LDAP"
+}

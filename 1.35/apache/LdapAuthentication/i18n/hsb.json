@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Michawiki"
+		]
+	},
+	"ldapauthentication-desc": "Tykač awtentifikacije LDAP z podpěru za wjacore metody LDAP-awtentifikacije"
+}

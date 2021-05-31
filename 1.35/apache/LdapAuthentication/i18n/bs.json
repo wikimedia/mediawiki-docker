@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"CERminator"
+		]
+	},
+	"ldapauthentication-desc": "Proširenje LDAP autentifikacije sa podrškom za mnoge metode LDAP autentifikacije"
+}

@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Nghtwlkr"
+		]
+	},
+	"ldapauthentication-desc": "Programutvidelse for LDAP-autentisering med støtte for flere LDAP-autentiseringsmetoder"
+}

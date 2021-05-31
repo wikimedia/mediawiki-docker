@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Andibing"
+		]
+	},
+	"ldapauthentication-desc": "LDAP authentication plugin with support for multiple LDAP authentication methods"
+}

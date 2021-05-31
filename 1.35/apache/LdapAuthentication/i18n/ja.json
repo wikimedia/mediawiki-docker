@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Aotake",
+			"Shirayuki"
+		]
+	},
+	"ldapauthentication-desc": "複数の LDAP 認証方式対応の LDAP 認証プラグイン"
+}

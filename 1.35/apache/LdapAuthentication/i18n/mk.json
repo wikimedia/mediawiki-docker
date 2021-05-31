@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bjankuloski06"
+		]
+	},
+	"ldapauthentication-desc": "LDAP приклучок за потврдување со поддршка за повеќе методи на LDAP потврдување"
+}

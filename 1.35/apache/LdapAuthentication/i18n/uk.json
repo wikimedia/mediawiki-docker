@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ytsukeng Fyvaprol"
+		]
+	},
+	"ldapauthentication-desc": "Плагін LDAP-аутентифікації з підтримкою декількох методів перевірки автентичності LDAP"
+}

@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Mormegil"
+		]
+	},
+	"ldapauthentication-desc": "Autentizační modul pro LDAP podporující několik autentizačních metod LDAP"
+}

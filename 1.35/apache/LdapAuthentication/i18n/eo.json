@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Blahma"
+		]
+	},
+	"ldapauthentication-desc": "LDAP-aŭtentiga kromprogramo kun subteno de pluraj LDAP-aŭtentigaj metodoj"
+}

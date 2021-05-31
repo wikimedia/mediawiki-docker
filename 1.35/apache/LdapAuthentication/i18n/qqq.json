@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Fryed-peach",
+			"Shirayuki",
+			"Umherirrender"
+		]
+	},
+	"ldapauthentication-desc": "{{desc|name=LDAP Authentication|url=https://www.mediawiki.org/wiki/Extension:LDAP_Authentication}}"
+}

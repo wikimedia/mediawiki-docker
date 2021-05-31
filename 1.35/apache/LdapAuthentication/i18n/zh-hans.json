@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Yanmiao liu"
+		]
+	},
+	"ldapauthentication-desc": "具有多种LDAP认证方法支持的LDAP认证插件"
+}

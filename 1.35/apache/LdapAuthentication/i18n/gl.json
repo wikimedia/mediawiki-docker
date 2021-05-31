@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Toliño"
+		]
+	},
+	"ldapauthentication-desc": "Complemento de autenticación LDAP con soporte para varios métodos de autenticación LDAP"
+}

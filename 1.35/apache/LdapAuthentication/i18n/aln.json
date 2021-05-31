@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Mdupont"
+		]
+	},
+	"ldapauthentication-desc": "plugin LDAP vertetimi me mbështetje për metoda të shumta tek LDAP"
+}

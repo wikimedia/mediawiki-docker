@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"John Reid"
+		]
+	},
+	"ldapauthentication-desc": "LDAP authentication plug-in wi support fer multiple LDAP authentication methods"
+}

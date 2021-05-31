@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Xuacu"
+		]
+	},
+	"ldapauthentication-desc": "Complemento p'autenticación LDAP con sofitu pa dellos métodos d'autenticación LDAP"
+}

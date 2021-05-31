@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Borichèt",
+			"Dragonòt"
+		]
+	},
+	"ldapauthentication-desc": "Plugin për l'autenticassion LDAP con apògg për vàire manere d'autenticassion LDAP"
+}

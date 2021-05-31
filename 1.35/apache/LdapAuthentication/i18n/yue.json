@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ktchankt"
+		]
+	},
+	"ldapauthentication-desc": "支援各種 LDAP 認證方法嘅 LDAP 認證插件"
+}

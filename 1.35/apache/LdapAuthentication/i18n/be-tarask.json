@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"EugeneZelenko"
+		]
+	},
+	"ldapauthentication-desc": "Дапаўненьне LDAP-аўтэнтыфікацыі з падтрымкай некалькіх мэтадаў аўтэнтыфікацыі LDAP"
+}

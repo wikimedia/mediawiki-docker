@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Sp5uhe"
+		]
+	},
+	"ldapauthentication-desc": "Wtyczka autoryzacji użytkowników z użyciem LDAP ze wsparciem dla wielu metod autoryzacji"
+}

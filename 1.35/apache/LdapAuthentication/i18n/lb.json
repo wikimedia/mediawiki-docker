@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Robby"
+		]
+	},
+	"ldapauthentication-desc": "Authentifikatiouns-Plugin fir LDAP mat Ënnerstëtzung fir multipel LDAP Authentifikatiouns-Methoden"
+}
