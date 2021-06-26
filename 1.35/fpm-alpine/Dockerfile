@@ -71,7 +71,7 @@ RUN set -eux; \
 	curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz.sig" -o mediawiki.tar.gz.sig; \
 	export GNUPGHOME="$(mktemp -d)"; \
 # gpg key from https://www.mediawiki.org/keys/keys.txt
-	gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys \
+	gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \
 		D7D6767D135A514BEB86E9BA75682B08E8A3FEC4 \
 		441276E9CCD15F44F6D97D18C119E1A64D70938E \
 		F7F780D82EBFB8A56556E7EE82403E59F9F8CD79 \
