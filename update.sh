@@ -1,7 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
-cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
+readlink='readlink'
+sed='sed'
+
+if [[ $(uname -s) != Linux ]]; then
+	# use the GNU versions explicitly
+	readlink='greadlink'
+	sed='gsed'
+fi
+
+# set TRACE=1 in the environment to trace execution
+if (( ${TRACE:-} )); then set -x; fi
+
+cd "$(dirname "$($readlink -f "$BASH_SOURCE")")"
 
 mediawikiReleases=( "$@" )
 if [ ${#mediawikiReleases[@]} -eq 0 ]; then
@@ -55,13 +67,7 @@ for mediawikiRelease in "${mediawikiReleases[@]}"; do
 		cmd="${variantCmds[$variant]}"
 		base="${variantBases[$variant]}"
 
-		case "$mediawikiRelease" in
-			1.31 )
-				extras=""
-				;;
-		esac
-
-		sed -r \
+		$sed -r \
 			-e 's!%%MEDIAWIKI_VERSION%%!'"$mediawikiVersion"'!g' \
 			-e 's!%%MEDIAWIKI_MAJOR_VERSION%%!'"$mediawikiRelease"'!g' \
 			-e 's!%%PHP_VERSION%%!'"$phpVersion"'!g' \
