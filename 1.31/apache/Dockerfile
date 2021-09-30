@@ -68,7 +68,7 @@ RUN set -eux; \
 
 # Version
 ENV MEDIAWIKI_MAJOR_VERSION 1.31
-ENV MEDIAWIKI_VERSION 1.31.15
+ENV MEDIAWIKI_VERSION 1.31.16
 
 # MediaWiki setup
 RUN set -eux; \
