@@ -15,7 +15,7 @@ declare -A phpVersion=(
 )
 
 declare -A peclVersions=(
-	[APCu]="5.1.20"
+	[APCu]="5.1.21"
 )
 
 function mediawiki_version() {
