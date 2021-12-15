@@ -10,7 +10,6 @@ fi
 mediawikiReleases=( "${mediawikiReleases[@]%/}" )
 
 declare -A phpVersion=(
-	[1.31]='7.3'
 	[default]='7.4'
 )
 
@@ -54,12 +53,6 @@ for mediawikiRelease in "${mediawikiReleases[@]}"; do
 		extras="${variantExtras[$variant]}"
 		cmd="${variantCmds[$variant]}"
 		base="${variantBases[$variant]}"
-
-		case "$mediawikiRelease" in
-			1.31 )
-				extras=""
-				;;
-		esac
 
 		sed -r \
 			-e 's!%%MEDIAWIKI_VERSION%%!'"$mediawikiVersion"'!g' \
