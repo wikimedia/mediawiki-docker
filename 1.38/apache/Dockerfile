@@ -83,8 +83,8 @@ RUN set -eux; \
 	chown -R www-data:www-data /var/www/data
 
 # Version
-ENV MEDIAWIKI_MAJOR_VERSION 1.36
-ENV MEDIAWIKI_VERSION 1.36.4
+ENV MEDIAWIKI_MAJOR_VERSION 1.38
+ENV MEDIAWIKI_VERSION 1.38.1
 
 # MediaWiki setup
 RUN set -eux; \
