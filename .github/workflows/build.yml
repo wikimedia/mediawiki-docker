@@ -1,22 +1,37 @@
 name: Docker Build
 
 on:
-  pull_request:
   push:
     branches:
       - master
+    tags:
+      - "release[0-9]+"
 
 jobs:
-
-  build:
-
+  docker-buid-push-release:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        version: ['1.35', '1.37', '1.38']
+        version: ["1.35", "1.37", "1.38"]
         type: [apache, fpm, fpm-alpine]
 
     steps:
-    - uses: actions/checkout@v1
-    - run: docker build ./${{ matrix.version }}/${{ matrix.type }}
+      - name: Git checkout
+        uses: actions/checkout@v3
+
+      - name: Login to gcloud registry
+        id: gcloud
+        uses: elgohr/gcloud-login-action@v1
+        with:
+          account_key: ${{ secrets.GCLOUD_KEY }}
+
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v4
+        with:
+          context: ./${{ matrix.version }}/${{ matrix.type }}
+          name: ${{ secrets.PROJECT_ID }}/${{ secrets.IMAGE_NAME }}
+          username: ${{ steps.gcloud.outputs.username }}
+          password: ${{ steps.gcloud.outputs.password }}
+          registry: gcr.io
+          tags: "${{ matrix.version }}-${{ matrix.type }}"
