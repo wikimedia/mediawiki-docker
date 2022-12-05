@@ -10,7 +10,9 @@ fi
 mediawikiReleases=( "${mediawikiReleases[@]%/}" )
 
 declare -A phpVersion=(
-	[default]='7.4'
+	[default]='8.1'
+        [1.38]='8.0'
+        [1.35]='8.0'
 )
 
 declare -A peclVersions=(
