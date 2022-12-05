@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:7.4-fpm
 
 # System dependencies
 RUN set -eux; \
@@ -52,21 +52,6 @@ RUN set -eux; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*
 
-# Enable Short URLs
-RUN set -eux; \
-	a2enmod rewrite; \
-	{ \
-		echo "<Directory /var/www/html>"; \
-		echo "  RewriteEngine On"; \
-		echo "  RewriteCond %{REQUEST_FILENAME} !-f"; \
-		echo "  RewriteCond %{REQUEST_FILENAME} !-d"; \
-		echo "  RewriteRule ^ %{DOCUMENT_ROOT}/index.php [L]"; \
-		echo "</Directory>"; \
-	} > "$APACHE_CONFDIR/conf-available/short-url.conf"; \
-	a2enconf short-url
-
-# Enable AllowEncodedSlashes for VisualEditor
-RUN sed -i "s/<\/VirtualHost>/\tAllowEncodedSlashes NoDecode\n<\/VirtualHost>/" "$APACHE_CONFDIR/sites-available/000-default.conf"
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
@@ -83,8 +68,8 @@ RUN set -eux; \
 	chown -R www-data:www-data /var/www/data
 
 # Version
-ENV MEDIAWIKI_MAJOR_VERSION 1.37
-ENV MEDIAWIKI_VERSION 1.37.6
+ENV MEDIAWIKI_MAJOR_VERSION 1.39
+ENV MEDIAWIKI_VERSION 1.39.0
 
 # MediaWiki setup
 RUN set -eux; \
@@ -114,4 +99,4 @@ RUN set -eux; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $fetchDeps; \
 	rm -rf /var/lib/apt/lists/*
 
-CMD ["apache2-foreground"]
+CMD ["php-fpm"]
