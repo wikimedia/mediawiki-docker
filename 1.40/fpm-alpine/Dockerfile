@@ -1,4 +1,4 @@
-FROM php:8.0-fpm-alpine
+FROM php:8.1-fpm-alpine
 
 # System dependencies
 RUN set -eux; \
@@ -58,8 +58,8 @@ RUN set -eux; \
 	chown -R www-data:www-data /var/www/data
 
 # Version
-ENV MEDIAWIKI_MAJOR_VERSION 1.38
-ENV MEDIAWIKI_VERSION 1.38.7
+ENV MEDIAWIKI_MAJOR_VERSION 1.40
+ENV MEDIAWIKI_VERSION 1.40.0
 
 # MediaWiki setup
 RUN set -eux; \
