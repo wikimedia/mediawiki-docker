@@ -3,8 +3,6 @@ name: Docker Build
 on:
   pull_request:
   push:
-    branches:
-      - master
 
 jobs:
 
