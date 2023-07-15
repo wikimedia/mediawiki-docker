@@ -6,7 +6,7 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
-    container: debian:bullseye
+    container: debian:bookworm
     steps:
       - uses: actions/checkout@v3
       - name: Run update
