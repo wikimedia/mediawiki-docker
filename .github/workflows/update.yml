@@ -7,6 +7,8 @@ jobs:
   update:
     runs-on: ubuntu-latest
     container: debian:bookworm
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v3
       - name: Run update
