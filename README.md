@@ -4,7 +4,8 @@ This is the Git repo of the Docker [official image](https://docs.docker.com/dock
 
 The full readme is generated over in [docker-library/docs](https://github.com/docker-library/docs), specifically in [docker-library/docs/mediawiki](https://github.com/docker-library/docs/tree/master/mediawiki).
 
-Do not edit the `Dockerfile`s directly. Changes should be made in the `Dockerfile-*.template` files and applied by running `update.sh`.
+Do not edit the `Dockerfile`s directly. Changes should be made in the `Dockerfile-*.template` files and applied by running `update.py`.
+The project is also running `update.py` via a scheduled github action once per day.
 
 See a change merged here that doesn't show up on the Docker Hub yet? Check [the "library/mediawiki" manifest file in the docker-library/official-images repo](https://github.com/docker-library/official-images/blob/master/library/mediawiki), especially [PRs with the "library/mediawiki" label on that repo](https://github.com/docker-library/official-images/labels/library%2Fmediawiki). For more information about the official images process, see the [docker-library/official-images readme](https://github.com/docker-library/official-images/blob/master/README.md).
 
