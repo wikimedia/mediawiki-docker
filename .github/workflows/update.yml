@@ -9,11 +9,12 @@ jobs:
     container: debian:bookworm
     env:
       GH_TOKEN: ${{ github.token }}
+
     steps:
       - name: Install dependencies
         run: |
           apt-get update && apt-get install --yes --no-install-recommends python3 git gh ca-certificates
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run update
         run: |
           gh repo set-default wikimedia/mediawiki-docker

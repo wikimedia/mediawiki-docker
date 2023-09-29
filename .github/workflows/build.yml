@@ -1,13 +1,10 @@
 name: Docker Build
-
 on:
   pull_request:
   push:
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -16,5 +13,5 @@ jobs:
         type: [apache, fpm, fpm-alpine]
 
     steps:
-    - uses: actions/checkout@v1
-    - run: docker build ./${{ matrix.version }}/${{ matrix.type }}
+      - uses: actions/checkout@v4
+      - run: docker build ./${{ matrix.version }}/${{ matrix.type }}
