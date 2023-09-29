@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Install dependencies
         run: |
-          apt-get update && apt-get install --yes --no-install-recommends python3 git gh
+          apt-get update && apt-get install --yes --no-install-recommends python3 git gh ca-certificates
       - uses: actions/checkout@v3
       - name: Run update
         run: |
