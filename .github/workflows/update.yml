@@ -17,6 +17,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run update
         run: |
+          # without re-setting the safe.directory config options all git
+          # commands error out, even though this should be already be set by
+          # actions/checkout.
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           gh repo set-default wikimedia/mediawiki-docker
           git checkout -b auto-update
           ./update.py --commit --pr
