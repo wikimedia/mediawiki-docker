@@ -15,6 +15,9 @@ jobs:
         run: |
           apt-get update && apt-get install --yes --no-install-recommends python3 git gh ca-certificates
       - uses: actions/checkout@v4
+        with:
+          # check out the full git history
+          fetch_depth: 0
       - name: Run update
         run: |
           gh repo set-default wikimedia/mediawiki-docker
