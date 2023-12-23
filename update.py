@@ -8,7 +8,6 @@ from pathlib import Path
 
 PHP_VERSIONS = {
     "default": "8.1",
-    "1.35": "8.0",
 }
 APCU_VERSION = "5.1.21"
 VARIANTS = ["apache", "fpm", "fpm-alpine"]
