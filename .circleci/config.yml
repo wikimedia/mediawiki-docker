@@ -48,15 +48,13 @@ workflows:
           filters:
             branches:
               only: main
-          matrix:
-            parameters:
-              mw-version: ['1.39', '1.40', '1.41']
-              type: [apache]
+          parameters:
+            mw-version: ['1.39', '1.40', '1.41']
+            type: [apache]
       - publish-latest:
-          matrix:
-            parameters:
-              mv-version: ['1.39', '1.40', '1.41']
-              type: [apache]
+          parameters:
+            mv-version: ['1.39', '1.40', '1.41']
+            type: [apache]
           requires:
             - build
           filters:
