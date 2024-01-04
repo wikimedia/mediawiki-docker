@@ -11,9 +11,6 @@ executors:
 jobs:
   build:
     executor: docker-publisher
-    matrix:
-        version: ['1.39', '1.40', '1.41']
-        type: [apache]
     steps:
       - checkout
       - setup_remote_docker
@@ -30,9 +27,6 @@ jobs:
             - ./${{ matrix.version }}/${{ matrix.type }}/image.tar
   publish-latest:
     executor: docker-publisher
-    matrix:
-        version: ['1.39', '1.40', '1.41']
-        type: [apache]
     steps:
       - attach_workspace:
           at: /tmp/workspace
@@ -54,7 +48,15 @@ workflows:
           filters:
             branches:
               only: main
+          matrix:
+            parameters:
+              version: ['1.39', '1.40', '1.41']
+              type: [apache]
       - publish-latest:
+          matrix:
+            parameters:
+              version: ['1.39', '1.40', '1.41']
+              type: [apache]
           requires:
             - build
           filters:
