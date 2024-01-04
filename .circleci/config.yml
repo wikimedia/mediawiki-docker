@@ -20,14 +20,14 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build ./<< parameters.mv-version >>/apache
+            docker build ./<< parameters.mw-version >>/apache
       - run:
           name: Archive Docker image
-          command: docker save -o << parameters.mv-version >>/image.tar $IMAGE_NAME
+          command: docker save -o << parameters.mw-version >>/image.tar $IMAGE_NAME
       - persist_to_workspace:
           root: .
           paths:
-            - ./<< parameters.mv-version >>/image.tar
+            - ./<< parameters.mw-version >>/image.tar
   publish-latest:
     parameters:
       mw-version:
@@ -39,13 +39,13 @@ jobs:
       - setup_remote_docker
       - run:
           name: Load archived Docker image
-          command: docker load -i /tmp/workspace/<< parameters.mv-version >>/image.tar
+          command: docker load -i /tmp/workspace/<< parameters.mw-version >>/image.tar
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
-            docker tag $IMAGE_NAME:<< parameters.mv-version >>
-            docker push $IMAGE_NAME:<< parameters.mv-version >>
+            docker tag $IMAGE_NAME:<< parameters.mw-version >>
+            docker push $IMAGE_NAME:<< parameters.mw-version >>
 workflows:
   version: 2
   build-main:
