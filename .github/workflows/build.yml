@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         version: ['1.39', '1.40', '1.41']
-        type: [apache, fpm, fpm-alpine]
+        type: [apache]
 
     steps:
       - uses: actions/checkout@v4
