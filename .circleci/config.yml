@@ -9,12 +9,11 @@ executors:
     docker:
       - image: cimg/base:2024.01
 jobs:
-  strategy:
-      matrix:
-        version: ['1.39', '1.40', '1.41']
-        type: [apache]
   build:
     executor: docker-publisher
+    matrix:
+        version: ['1.39', '1.40', '1.41']
+        type: [apache]
     steps:
       - checkout
       - setup_remote_docker
@@ -31,6 +30,9 @@ jobs:
             - ./${{ matrix.version }}/${{ matrix.type }}/image.tar
   publish-latest:
     executor: docker-publisher
+    matrix:
+        version: ['1.39', '1.40', '1.41']
+        type: [apache]
     steps:
       - attach_workspace:
           at: /tmp/workspace
