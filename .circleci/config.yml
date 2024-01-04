@@ -10,6 +10,11 @@ executors:
       - image: cimg/base:2024.01
 jobs:
   build:
+    parameters:
+      mw-version:
+        type: string
+      type:
+        type: string
     executor: docker-publisher
     steps:
       - checkout
@@ -26,6 +31,11 @@ jobs:
           paths:
             - ./<< parameters.mv-version >>/<< parameters.type >>/image.tar
   publish-latest:
+    parameters:
+      mw-version:
+        type: string
+      type:
+        type: string
     executor: docker-publisher
     steps:
       - attach_workspace:
@@ -48,13 +58,15 @@ workflows:
           filters:
             branches:
               only: main
-          parameters:
-            mw-version: ['1.39', '1.40', '1.41']
-            type: [apache]
+          matrix:
+            parameters:
+              mw-version: ['1.39', '1.40', '1.41']
+              type: [apache]
       - publish-latest:
-          parameters:
-            mv-version: ['1.39', '1.40', '1.41']
-            type: [apache]
+          matrix:
+            parameters:
+              mv-version: ['1.39', '1.40', '1.41']
+              type: [apache]
           requires:
             - build
           filters:
