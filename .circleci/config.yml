@@ -13,8 +13,6 @@ jobs:
     parameters:
       mw-version:
         type: string
-      type:
-        type: string
     executor: docker-publisher
     steps:
       - checkout
@@ -22,19 +20,17 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build ./<< parameters.mv-version >>/<< parameters.type >>
+            docker build ./<< parameters.mv-version >>/apache
       - run:
           name: Archive Docker image
-          command: docker save -o << parameters.mv-version >>/<< parameters.type >>/image.tar $IMAGE_NAME
+          command: docker save -o << parameters.mv-version >>/image.tar $IMAGE_NAME
       - persist_to_workspace:
           root: .
           paths:
-            - ./<< parameters.mv-version >>/<< parameters.type >>/image.tar
+            - ./<< parameters.mv-version >>/image.tar
   publish-latest:
     parameters:
       mw-version:
-        type: string
-      type:
         type: string
     executor: docker-publisher
     steps:
@@ -43,7 +39,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Load archived Docker image
-          command: docker load -i /tmp/workspace/<< parameters.mv-version >>/<< parameters.type >>/image.tar
+          command: docker load -i /tmp/workspace/<< parameters.mv-version >>/image.tar
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
@@ -61,12 +57,10 @@ workflows:
           matrix:
             parameters:
               mw-version: ['1.39', '1.40', '1.41']
-              type: [apache]
       - publish-latest:
           matrix:
             parameters:
               mv-version: ['1.39', '1.40', '1.41']
-              type: [apache]
           requires:
             - build
           filters:
