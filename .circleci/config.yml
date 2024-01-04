@@ -2,25 +2,65 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/configuration-reference/#jobs
-jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/configuration-reference/#executor-job
+executors:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: antt1995/dsp-mediawiki
     docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/configuration-reference/#steps
+      - image: cimg/base:2024.01
+jobs:
+  build:
+    executor: docker-publisher
+    strategy:
+      matrix:
+        version: ['1.39', '1.40', '1.41']
+        type: [apache]
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
-
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/configuration-reference/#workflows
+          name: Build Docker image
+          command: |
+            docker build ./${{ matrix.version }}/${{ matrix.type }}
+      - run:
+          name: Archive Docker image
+          command: docker save -o ${{ matrix.version }}/${{ matrix.type }}/image.tar $IMAGE_NAME
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./${{ matrix.version }}/${{ matrix.type }}/image.tar
+  publish-latest:
+    executor: docker-publisher
+    strategy:
+      matrix:
+        version: ['1.39', '1.40', '1.41']
+        type: [apache]
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - setup_remote_docker
+      - run:
+          name: Load archived Docker image
+          command: docker load -i /tmp/workspace/${{ matrix.version }}/${{ matrix.type }}/image.tar
+      - run:
+          name: Publish Docker Image to Docker Hub
+          command: |
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
+            docker tag $IMAGE_NAME:${{ matrix.version }}
+            docker push $IMAGE_NAME:${{ matrix.version }}
 workflows:
-  say-hello-workflow:
+  version: 2
+  build-main:
     jobs:
-      - say-hello
+      - build:
+          filters:
+            branches:
+              only: main
+      - publish-latest:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main
+          context:
+            - dockerhub
