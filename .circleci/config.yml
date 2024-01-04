@@ -67,4 +67,4 @@ workflows:
             branches:
               only: main
           context:
-            - dockerhub
+            - docker
