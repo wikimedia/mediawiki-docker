@@ -65,6 +65,17 @@ RUN set -eux; \
 	} > "$APACHE_CONFDIR/conf-available/short-url.conf"; \
 	a2enconf short-url
 
+# Enable RemoteIp
+RUN set -eux; \
+    a2enmod rewrite; \
+    { \
+		echo 'RemoteIPHeader X-Real-IP'; \
+		echo 'RemoteIPInternalProxy 10.0.0.0/8'; \
+		echo 'RemoteIPInternalProxy 172.16.0.0/12' \
+	} > "$APACHE_CONFDIR/conf-available/remoteip.conf"; \
+    a2enconf remoteip; \
+	service apache2 reload
+
 # Enable AllowEncodedSlashes for VisualEditor
 RUN sed -i "s/<\/VirtualHost>/\tAllowEncodedSlashes NoDecode\n<\/VirtualHost>/" "$APACHE_CONFDIR/sites-available/000-default.conf"
 
