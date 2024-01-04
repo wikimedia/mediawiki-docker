@@ -60,7 +60,7 @@ workflows:
       - publish-latest:
           matrix:
             parameters:
-              mv-version: ['1.39', '1.40', '1.41']
+              mw-version: ['1.39', '1.40', '1.41']
           requires:
             - build
           filters:
