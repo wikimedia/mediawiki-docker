@@ -2,6 +2,7 @@ name: Update
 on:
   schedule:
     - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   update:
@@ -21,6 +22,8 @@ jobs:
           # commands error out, even though this should be already be set by
           # actions/checkout.
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config --global user.email "cool-updating-bot@mediawiki.org"
+          git config --global user.name "Cool updating bot"
           gh repo set-default wikimedia/mediawiki-docker
           git checkout -b auto-update
           ./update.py --commit --pr
