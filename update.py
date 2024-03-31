@@ -10,6 +10,7 @@ PHP_VERSIONS = {
     "default": "8.1",
 }
 APCU_VERSION = "5.1.23"
+LUASANDBOX_VERSION = "4.1.2"
 VARIANTS = ["apache", "fpm", "fpm-alpine"]
 ROOT_DIR = Path(__file__).parent
 
@@ -91,6 +92,7 @@ def main():
                 .replace("%%MEDIAWIKI_VERSION%%", latest)
                 .replace("%%VARIANT%%", variant)
                 .replace("%%APCU_VERSION%%", APCU_VERSION)
+                .replace("%%LUASANDBOX_VERSION%%", LUASANDBOX_VERSION)
                 .replace(
                     "%%CMD%%",
                     "apache2-foreground" if variant == "apache" else "php-fpm",
