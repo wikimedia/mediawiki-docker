@@ -9,7 +9,7 @@ from pathlib import Path
 PHP_VERSIONS = {
     "default": "8.1",
 }
-APCU_VERSION = "5.1.21"
+APCU_VERSION = "5.1.23"
 VARIANTS = ["apache", "fpm", "fpm-alpine"]
 ROOT_DIR = Path(__file__).parent
 
