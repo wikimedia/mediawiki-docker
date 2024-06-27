@@ -27,7 +27,7 @@ RUN set -eux; \
 		opcache \
 	; \
 	\
-	pecl install APCu-5.1.23; \
+	pecl install APCu-5.1.21; \
 	docker-php-ext-enable \
 		apcu \
 	; \
@@ -58,8 +58,8 @@ RUN set -eux; \
 	chown -R www-data:www-data /var/www/data
 
 # Version
-ENV MEDIAWIKI_MAJOR_VERSION 1.40
-ENV MEDIAWIKI_VERSION 1.40.4
+ENV MEDIAWIKI_MAJOR_VERSION 1.42
+ENV MEDIAWIKI_VERSION 1.42.1
 
 # MediaWiki setup
 RUN set -eux; \
