@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        version: ['1.39', '1.40', '1.41']
+        version: ['1.39', '1.41', '1.42']
         type: [apache, fpm, fpm-alpine]
 
     steps:
