@@ -16,6 +16,7 @@ RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 		$PHPIZE_DEPS \
 		icu-dev \
+		lua5.1-dev \
 		oniguruma-dev \
 	; \
 	\
@@ -28,8 +29,10 @@ RUN set -eux; \
 	; \
 	\
 	pecl install APCu-5.1.23; \
+	pecl install LuaSandbox-4.1.2; \
 	docker-php-ext-enable \
 		apcu \
+		luasandbox \
 	; \
 	rm -r /tmp/pear; \
 	\
