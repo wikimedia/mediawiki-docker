@@ -22,6 +22,7 @@ RUN set -eux; \
 	apt-get install -y --no-install-recommends \
 		libicu-dev \
 		libonig-dev \
+		liblua5.1-0-dev \
 	; \
 	\
 	docker-php-ext-install -j "$(nproc)" \
@@ -33,8 +34,10 @@ RUN set -eux; \
 	; \
 	\
 	pecl install APCu-5.1.23; \
+	pecl install LuaSandbox-4.1.2; \
 	docker-php-ext-enable \
 		apcu \
+		luasandbox \
 	; \
 	rm -r /tmp/pear; \
 	\
