@@ -16,13 +16,9 @@ RUN set -eux; \
 # Install the PHP extensions we need
 RUN set -eux; \
 	\
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
-		liblua5.1-0 \
-	; \
-	\
 	savedAptMark="$(apt-mark showmanual)"; \
 	\
+	apt-get update; \
 	apt-get install -y --no-install-recommends \
 		libicu-dev \
 		libonig-dev \
