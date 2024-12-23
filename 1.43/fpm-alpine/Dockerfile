@@ -1,0 +1,86 @@
+FROM php:8.1-fpm-alpine
+
+# System dependencies
+RUN set -eux; \
+	\
+	apk add --no-cache \
+		git \
+		imagemagick \
+		# Required for SyntaxHighlighting
+		python3 \
+	;
+
+# Install the PHP extensions we need
+RUN set -eux; \
+	\
+	apk add --no-cache --virtual .build-deps \
+		$PHPIZE_DEPS \
+		icu-dev \
+		lua5.1-dev \
+		oniguruma-dev \
+	; \
+	\
+	docker-php-ext-install -j "$(nproc)" \
+		calendar \
+		intl \
+		mbstring \
+		mysqli \
+		opcache \
+	; \
+	\
+	pecl install APCu-5.1.24; \
+	pecl install LuaSandbox-4.1.2; \
+	docker-php-ext-enable \
+		apcu \
+		luasandbox \
+	; \
+	rm -r /tmp/pear; \
+	\
+	runDeps="$( \
+		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
+			| tr ',' '\n' \
+			| sort -u \
+			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+	)"; \
+	apk add --no-network --virtual .mediawiki-phpext-rundeps $runDeps; \
+	apk del --no-network .build-deps
+
+# set recommended PHP.ini settings
+# see https://secure.php.net/manual/en/opcache.installation.php
+RUN { \
+		echo 'opcache.memory_consumption=128'; \
+		echo 'opcache.interned_strings_buffer=8'; \
+		echo 'opcache.max_accelerated_files=4000'; \
+		echo 'opcache.revalidate_freq=60'; \
+		echo 'opcache.fast_shutdown=1'; \
+	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
+
+# SQLite Directory Setup
+RUN set -eux; \
+	mkdir -p /var/www/data; \
+	chown -R www-data:www-data /var/www/data
+
+# Version
+ENV MEDIAWIKI_MAJOR_VERSION 1.43
+ENV MEDIAWIKI_VERSION 1.43.0
+
+# MediaWiki setup
+RUN set -eux; \
+	apk add --no-cache --virtual .fetch-deps \
+		bzip2 \
+		gnupg \
+	; \
+	\
+	curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz; \
+	curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz.sig" -o mediawiki.tar.gz.sig; \
+	export GNUPGHOME="$(mktemp -d)"; \
+	gpg --fetch-keys "https://www.mediawiki.org/keys/keys.txt"; \
+	gpg --batch --verify mediawiki.tar.gz.sig mediawiki.tar.gz; \
+	tar -x --strip-components=1 -f mediawiki.tar.gz; \
+	gpgconf --kill all; \
+	rm -rf "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz; \
+	chown -R www-data:www-data extensions skins cache images; \
+	\
+	apk del --no-network .fetch-deps
+
+CMD ["php-fpm"]
