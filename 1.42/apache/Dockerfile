@@ -87,7 +87,7 @@ RUN set -eux; \
 
 # Version
 ENV MEDIAWIKI_MAJOR_VERSION 1.42
-ENV MEDIAWIKI_VERSION 1.42.4
+ENV MEDIAWIKI_VERSION 1.42.5
 
 # MediaWiki setup
 RUN set -eux; \
@@ -111,7 +111,7 @@ RUN set -eux; \
 	; \
 	gpg --batch --verify mediawiki.tar.gz.sig mediawiki.tar.gz; \
 	tar -x --strip-components=1 -f mediawiki.tar.gz; \
-	[ 1.42.4 = "1.42.4" ] && \
+	[ 1.42.5 = "1.42.4" ] && \
 		sed -i 's|wikimedia/parsoid": "0.19.0"|wikimedia/parsoid": "0.19.1"|' \
 			composer.json; \
 	gpgconf --kill all; \
