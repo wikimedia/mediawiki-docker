@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.3-fpm
 
 # System dependencies
 RUN set -eux; \
@@ -33,7 +33,7 @@ RUN set -eux; \
 		opcache \
 	; \
 	\
-	pecl install APCu-5.1.27; \
+	pecl install APCu-5.1.28; \
 	pecl install LuaSandbox-4.1.2; \
 	docker-php-ext-enable \
 		apcu \
@@ -72,7 +72,7 @@ RUN set -eux; \
 
 # Version
 ENV MEDIAWIKI_MAJOR_VERSION=1.43
-ENV MEDIAWIKI_VERSION=1.43.5
+ENV MEDIAWIKI_VERSION=1.43.6
 
 # MediaWiki setup
 RUN set -eux; \
