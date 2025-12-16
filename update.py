@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 
 PHP_VERSIONS = {
-    "default": "8.1",
+    "default": "8.3",
 }
 APCU_VERSION = "5.1.27"
 LUASANDBOX_VERSION = "4.1.2"
