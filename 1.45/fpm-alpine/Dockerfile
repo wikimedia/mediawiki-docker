@@ -1,28 +1,23 @@
-FROM php:8.3-fpm
+FROM php:8.3-fpm-alpine
 
 # System dependencies
 RUN set -eux; \
 	\
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
+	apk add --no-cache \
 		git \
-		librsvg2-bin \
 		imagemagick \
 		# Required for SyntaxHighlighting
 		python3 \
-	; \
-	rm -rf /var/lib/apt/lists/*
+	;
 
 # Install the PHP extensions we need
 RUN set -eux; \
 	\
-	savedAptMark="$(apt-mark showmanual)"; \
-	\
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
-		libicu-dev \
-		libonig-dev \
-		liblua5.1-0-dev \
+	apk add --no-cache --virtual .build-deps \
+		$PHPIZE_DEPS \
+		icu-dev \
+		lua5.1-dev \
+		oniguruma-dev \
 	; \
 	\
 	docker-php-ext-install -j "$(nproc)" \
@@ -41,20 +36,14 @@ RUN set -eux; \
 	; \
 	rm -r /tmp/pear; \
 	\
-	# reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
-	apt-mark auto '.*' > /dev/null; \
-	apt-mark manual $savedAptMark; \
-	ldd "$(php -r 'echo ini_get("extension_dir");')"/*.so \
-		| awk '/=>/ { so = $(NF-1); if (index(so, "/usr/local/") == 1) { next }; gsub("^/(usr/)?", "", so); printf "*%s\n", so }' \
-		| sort -u \
-		| xargs -r dpkg-query --search \
-		| cut -d: -f1 \
-		| sort -u \
-		| xargs -rt apt-mark manual; \
-	\
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-	rm -rf /var/lib/apt/lists/*
-
+	runDeps="$( \
+		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
+			| tr ',' '\n' \
+			| sort -u \
+			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+	)"; \
+	apk add --no-network --virtual .mediawiki-phpext-rundeps $runDeps; \
+	apk del --no-network .build-deps
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
@@ -63,6 +52,7 @@ RUN { \
 		echo 'opcache.interned_strings_buffer=8'; \
 		echo 'opcache.max_accelerated_files=4000'; \
 		echo 'opcache.revalidate_freq=60'; \
+		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 # SQLite Directory Setup
@@ -71,17 +61,15 @@ RUN set -eux; \
 	chown -R www-data:www-data /var/www/data
 
 # Version
-ENV MEDIAWIKI_MAJOR_VERSION=1.39
-ENV MEDIAWIKI_VERSION=1.39.16
+ENV MEDIAWIKI_MAJOR_VERSION=1.45
+ENV MEDIAWIKI_VERSION=1.45.1
 
 # MediaWiki setup
 RUN set -eux; \
-	fetchDeps=" \
+	apk add --no-cache --virtual .fetch-deps \
+		bzip2 \
 		gnupg \
-		dirmngr \
-	"; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends $fetchDeps; \
+	; \
 	\
 	curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" -o mediawiki.tar.gz; \
 	curl -fSL "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_MAJOR_VERSION}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz.sig" -o mediawiki.tar.gz.sig; \
@@ -97,10 +85,9 @@ RUN set -eux; \
 	gpg --batch --verify mediawiki.tar.gz.sig mediawiki.tar.gz; \
 	tar -x --strip-components=1 -f mediawiki.tar.gz; \
 	gpgconf --kill all; \
-	rm -r "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz; \
+	rm -rf "$GNUPGHOME" mediawiki.tar.gz.sig mediawiki.tar.gz; \
 	chown -R www-data:www-data extensions skins cache images; \
 	\
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $fetchDeps; \
-	rm -rf /var/lib/apt/lists/*
+	apk del --no-network .fetch-deps
 
 CMD ["php-fpm"]
