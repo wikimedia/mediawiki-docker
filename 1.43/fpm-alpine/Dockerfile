@@ -28,7 +28,7 @@ RUN set -eux; \
 		opcache \
 	; \
 	\
-	pecl install APCu-5.1.27; \
+	pecl install APCu-5.1.28; \
 	pecl install LuaSandbox-4.1.2; \
 	docker-php-ext-enable \
 		apcu \
