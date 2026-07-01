@@ -71,8 +71,8 @@ RUN set -eux; \
 	chown -R www-data:www-data /var/www/data
 
 # Version
-ENV MEDIAWIKI_MAJOR_VERSION=1.43
-ENV MEDIAWIKI_VERSION=1.43.9
+ENV MEDIAWIKI_MAJOR_VERSION=1.46
+ENV MEDIAWIKI_VERSION=1.46.0
 
 # MediaWiki setup
 RUN set -eux; \

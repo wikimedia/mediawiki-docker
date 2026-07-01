@@ -81,6 +81,7 @@ RUN set -eux; \
 		F7F780D82EBFB8A56556E7EE82403E59F9F8CD79 \
 		1D98867E82982C8FE0ABC25F9B69B3109D3BB7B0 \
 		E059C034E7A430583C252F4AA8F734246D73B586 \
+		7759DE19A22260232F251342FC4D45E75D14112B \
 	; \
 	gpg --batch --verify mediawiki.tar.gz.sig mediawiki.tar.gz; \
 	tar -x --strip-components=1 -f mediawiki.tar.gz; \
